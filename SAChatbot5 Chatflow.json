@@ -1,0 +1,1121 @@
+{
+  "nodes": [
+    {
+      "width": 300,
+      "height": 378,
+      "id": "markdownTextSplitter_0",
+      "position": {
+        "x": 443.9043551093654,
+        "y": -65.04221925720717
+      },
+      "type": "customNode",
+      "data": {
+        "id": "markdownTextSplitter_0",
+        "label": "Markdown Text Splitter",
+        "version": 1,
+        "name": "markdownTextSplitter",
+        "type": "MarkdownTextSplitter",
+        "baseClasses": [
+          "MarkdownTextSplitter",
+          "RecursiveCharacterTextSplitter",
+          "TextSplitter",
+          "BaseDocumentTransformer"
+        ],
+        "category": "Text Splitters",
+        "description": "Split your content into documents based on the Markdown headers",
+        "inputParams": [
+          {
+            "label": "Chunk Size",
+            "name": "chunkSize",
+            "type": "number",
+            "default": 1000,
+            "optional": true,
+            "id": "markdownTextSplitter_0-input-chunkSize-number"
+          },
+          {
+            "label": "Chunk Overlap",
+            "name": "chunkOverlap",
+            "type": "number",
+            "optional": true,
+            "id": "markdownTextSplitter_0-input-chunkOverlap-number"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "chunkSize": "4000",
+          "chunkOverlap": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "markdownTextSplitter_0-output-markdownTextSplitter-MarkdownTextSplitter|RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer",
+            "name": "markdownTextSplitter",
+            "label": "MarkdownTextSplitter",
+            "type": "MarkdownTextSplitter | RecursiveCharacterTextSplitter | TextSplitter | BaseDocumentTransformer"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 443.9043551093654,
+        "y": -65.04221925720717
+      },
+      "dragging": false
+    },
+    {
+      "width": 300,
+      "height": 407,
+      "id": "memoryVectorStore_0",
+      "position": {
+        "x": 1844.88052464165,
+        "y": 488.61590394267876
+      },
+      "type": "customNode",
+      "data": {
+        "id": "memoryVectorStore_0",
+        "label": "In-Memory Vector Store",
+        "version": 1,
+        "name": "memoryVectorStore",
+        "type": "Memory",
+        "baseClasses": [
+          "Memory",
+          "VectorStoreRetriever",
+          "BaseRetriever"
+        ],
+        "category": "Vector Stores",
+        "description": "In-memory vectorstore that stores embeddings and does an exact, linear search for the most similar embeddings.",
+        "inputParams": [
+          {
+            "label": "Top K",
+            "name": "topK",
+            "description": "Number of top results to fetch. Default to 4",
+            "placeholder": "4",
+            "type": "number",
+            "optional": true,
+            "id": "memoryVectorStore_0-input-topK-number"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Document",
+            "name": "document",
+            "type": "Document",
+            "list": true,
+            "id": "memoryVectorStore_0-input-document-Document"
+          },
+          {
+            "label": "Embeddings",
+            "name": "embeddings",
+            "type": "Embeddings",
+            "id": "memoryVectorStore_0-input-embeddings-Embeddings"
+          }
+        ],
+        "inputs": {
+          "document": [
+            "{{textFile_0.data.instance}}",
+            "{{cheerioWebScraper_0.data.instance}}"
+          ],
+          "embeddings": "{{openAIEmbeddings_0.data.instance}}",
+          "topK": "10"
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "options": [
+              {
+                "id": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+                "name": "retriever",
+                "label": "Memory Retriever",
+                "type": "Memory | VectorStoreRetriever | BaseRetriever"
+              },
+              {
+                "id": "memoryVectorStore_0-output-vectorStore-Memory|VectorStore",
+                "name": "vectorStore",
+                "label": "Memory Vector Store",
+                "type": "Memory | VectorStore"
+              }
+            ],
+            "default": "retriever"
+          }
+        ],
+        "outputs": {
+          "output": "retriever"
+        },
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1844.88052464165,
+        "y": 488.61590394267876
+      },
+      "dragging": false
+    },
+    {
+      "width": 300,
+      "height": 481,
+      "id": "conversationalRetrievalQAChain_0",
+      "position": {
+        "x": 2191.3627075480836,
+        "y": 191.24564714869618
+      },
+      "type": "customNode",
+      "data": {
+        "id": "conversationalRetrievalQAChain_0",
+        "label": "Conversational Retrieval QA Chain",
+        "version": 2,
+        "name": "conversationalRetrievalQAChain",
+        "type": "ConversationalRetrievalQAChain",
+        "baseClasses": [
+          "ConversationalRetrievalQAChain",
+          "BaseChain",
+          "Runnable"
+        ],
+        "category": "Chains",
+        "description": "Document QA - built on RetrievalQAChain to provide a chat history component",
+        "inputParams": [
+          {
+            "label": "Return Source Documents",
+            "name": "returnSourceDocuments",
+            "type": "boolean",
+            "optional": true,
+            "id": "conversationalRetrievalQAChain_0-input-returnSourceDocuments-boolean"
+          },
+          {
+            "label": "Rephrase Prompt",
+            "name": "rephrasePrompt",
+            "type": "string",
+            "description": "Using previous chat history, rephrase question into a standalone question",
+            "warning": "Prompt must include input variables: {chat_history} and {question}",
+            "rows": 4,
+            "additionalParams": true,
+            "optional": true,
+            "default": "Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.\n\nChat History:\n{chat_history}\nFollow Up Input: {question}\nStandalone Question:",
+            "id": "conversationalRetrievalQAChain_0-input-rephrasePrompt-string"
+          },
+          {
+            "label": "Response Prompt",
+            "name": "responsePrompt",
+            "type": "string",
+            "description": "Taking the rephrased question, search for answer from the provided context",
+            "warning": "Prompt must include input variable: {context}",
+            "rows": 4,
+            "additionalParams": true,
+            "optional": true,
+            "default": "You are a helpful assistant. Using the provided context, answer the user's question to the best of your ability using the resources provided.\nIf there is nothing in the context relevant to the question at hand, just say \"Hmm, I'm not sure.\" Don't try to make up an answer.\n------------\n{context}\n------------\nREMEMBER: If there is no relevant information within the context, just say \"Hmm, I'm not sure.\" Don't try to make up an answer.",
+            "id": "conversationalRetrievalQAChain_0-input-responsePrompt-string"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Chat Model",
+            "name": "model",
+            "type": "BaseChatModel",
+            "id": "conversationalRetrievalQAChain_0-input-model-BaseChatModel"
+          },
+          {
+            "label": "Vector Store Retriever",
+            "name": "vectorStoreRetriever",
+            "type": "BaseRetriever",
+            "id": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever"
+          },
+          {
+            "label": "Memory",
+            "name": "memory",
+            "type": "BaseMemory",
+            "optional": true,
+            "description": "If left empty, a default BufferMemory will be used",
+            "id": "conversationalRetrievalQAChain_0-input-memory-BaseMemory"
+          }
+        ],
+        "inputs": {
+          "model": "{{chatOpenAI_0.data.instance}}",
+          "vectorStoreRetriever": "{{memoryVectorStore_0.data.instance}}",
+          "memory": "",
+          "returnSourceDocuments": true,
+          "rephrasePrompt": "Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.\n\nChat History:\n{chat_history}\nFollow Up Input: {question}\nStandalone Question:",
+          "responsePrompt": "You are a helpful assistant. Using the provided context, answer the user's question to the best of your ability using the resources provided.\nIf there is nothing in the context relevant to the question at hand, just say \"Hmm, I'm not sure.\" Don't try to make up an answer.\n------------\n{context}\n------------\nREMEMBER: If there is no relevant information within the context, just say \"Hmm, I'm not sure.\" Don't try to make up an answer."
+        },
+        "outputAnchors": [
+          {
+            "id": "conversationalRetrievalQAChain_0-output-conversationalRetrievalQAChain-ConversationalRetrievalQAChain|BaseChain|Runnable",
+            "name": "conversationalRetrievalQAChain",
+            "label": "ConversationalRetrievalQAChain",
+            "type": "ConversationalRetrievalQAChain | BaseChain | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 2191.3627075480836,
+        "y": 191.24564714869618
+      }
+    },
+    {
+      "width": 300,
+      "height": 576,
+      "id": "chatOpenAI_0",
+      "position": {
+        "x": 1857.367353502965,
+        "y": -101.72496054366468
+      },
+      "type": "customNode",
+      "data": {
+        "id": "chatOpenAI_0",
+        "label": "ChatOpenAI",
+        "version": 3,
+        "name": "chatOpenAI",
+        "type": "ChatOpenAI",
+        "baseClasses": [
+          "ChatOpenAI",
+          "BaseChatModel",
+          "BaseLanguageModel"
+        ],
+        "category": "Chat Models",
+        "description": "Wrapper around OpenAI large language models that use the Chat endpoint",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "openAIApi"
+            ],
+            "id": "chatOpenAI_0-input-credential-credential"
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "options",
+            "options": [
+              {
+                "label": "gpt-4",
+                "name": "gpt-4"
+              },
+              {
+                "label": "gpt-4-turbo-preview",
+                "name": "gpt-4-turbo-preview"
+              },
+              {
+                "label": "gpt-4-0125-preview",
+                "name": "gpt-4-0125-preview"
+              },
+              {
+                "label": "gpt-4-1106-preview",
+                "name": "gpt-4-1106-preview"
+              },
+              {
+                "label": "gpt-4-vision-preview",
+                "name": "gpt-4-vision-preview"
+              },
+              {
+                "label": "gpt-4-0613",
+                "name": "gpt-4-0613"
+              },
+              {
+                "label": "gpt-4-32k",
+                "name": "gpt-4-32k"
+              },
+              {
+                "label": "gpt-4-32k-0613",
+                "name": "gpt-4-32k-0613"
+              },
+              {
+                "label": "gpt-3.5-turbo",
+                "name": "gpt-3.5-turbo"
+              },
+              {
+                "label": "gpt-3.5-turbo-1106",
+                "name": "gpt-3.5-turbo-1106"
+              },
+              {
+                "label": "gpt-3.5-turbo-0613",
+                "name": "gpt-3.5-turbo-0613"
+              },
+              {
+                "label": "gpt-3.5-turbo-16k",
+                "name": "gpt-3.5-turbo-16k"
+              },
+              {
+                "label": "gpt-3.5-turbo-16k-0613",
+                "name": "gpt-3.5-turbo-16k-0613"
+              }
+            ],
+            "default": "gpt-3.5-turbo",
+            "optional": true,
+            "id": "chatOpenAI_0-input-modelName-options"
+          },
+          {
+            "label": "Temperature",
+            "name": "temperature",
+            "type": "number",
+            "default": 0.9,
+            "optional": true,
+            "id": "chatOpenAI_0-input-temperature-number"
+          },
+          {
+            "label": "Max Tokens",
+            "name": "maxTokens",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-maxTokens-number"
+          },
+          {
+            "label": "Top Probability",
+            "name": "topP",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-topP-number"
+          },
+          {
+            "label": "Frequency Penalty",
+            "name": "frequencyPenalty",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-frequencyPenalty-number"
+          },
+          {
+            "label": "Presence Penalty",
+            "name": "presencePenalty",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-presencePenalty-number"
+          },
+          {
+            "label": "Timeout",
+            "name": "timeout",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-timeout-number"
+          },
+          {
+            "label": "BasePath",
+            "name": "basepath",
+            "type": "string",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-basepath-string"
+          },
+          {
+            "label": "BaseOptions",
+            "name": "baseOptions",
+            "type": "json",
+            "optional": true,
+            "additionalParams": true,
+            "id": "chatOpenAI_0-input-baseOptions-json"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Cache",
+            "name": "cache",
+            "type": "BaseCache",
+            "optional": true,
+            "id": "chatOpenAI_0-input-cache-BaseCache"
+          }
+        ],
+        "inputs": {
+          "modelName": "gpt-3.5-turbo",
+          "temperature": "0.4",
+          "maxTokens": "",
+          "topP": "",
+          "frequencyPenalty": "",
+          "presencePenalty": "",
+          "timeout": "",
+          "basepath": "",
+          "baseOptions": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "chatOpenAI_0-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel",
+            "name": "chatOpenAI",
+            "label": "ChatOpenAI",
+            "type": "ChatOpenAI | BaseChatModel | BaseLanguageModel"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1857.367353502965,
+        "y": -101.72496054366468
+      },
+      "dragging": false
+    },
+    {
+      "width": 300,
+      "height": 426,
+      "id": "openAIEmbeddings_0",
+      "position": {
+        "x": 1299.1494209907498,
+        "y": 755.2296213189072
+      },
+      "type": "customNode",
+      "data": {
+        "id": "openAIEmbeddings_0",
+        "label": "OpenAI Embeddings",
+        "version": 2,
+        "name": "openAIEmbeddings",
+        "type": "OpenAIEmbeddings",
+        "baseClasses": [
+          "OpenAIEmbeddings",
+          "Embeddings"
+        ],
+        "category": "Embeddings",
+        "description": "OpenAI API to generate embeddings for a given text",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "openAIApi"
+            ],
+            "id": "openAIEmbeddings_0-input-credential-credential"
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "options",
+            "options": [
+              {
+                "label": "text-embedding-3-large",
+                "name": "text-embedding-3-large"
+              },
+              {
+                "label": "text-embedding-3-small",
+                "name": "text-embedding-3-small"
+              },
+              {
+                "label": "text-embedding-ada-002",
+                "name": "text-embedding-ada-002"
+              }
+            ],
+            "default": "text-embedding-ada-002",
+            "optional": true,
+            "id": "openAIEmbeddings_0-input-modelName-options"
+          },
+          {
+            "label": "Strip New Lines",
+            "name": "stripNewLines",
+            "type": "boolean",
+            "optional": true,
+            "additionalParams": true,
+            "id": "openAIEmbeddings_0-input-stripNewLines-boolean"
+          },
+          {
+            "label": "Batch Size",
+            "name": "batchSize",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "openAIEmbeddings_0-input-batchSize-number"
+          },
+          {
+            "label": "Timeout",
+            "name": "timeout",
+            "type": "number",
+            "optional": true,
+            "additionalParams": true,
+            "id": "openAIEmbeddings_0-input-timeout-number"
+          },
+          {
+            "label": "BasePath",
+            "name": "basepath",
+            "type": "string",
+            "optional": true,
+            "additionalParams": true,
+            "id": "openAIEmbeddings_0-input-basepath-string"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "stripNewLines": "",
+          "batchSize": "",
+          "timeout": "",
+          "basepath": "",
+          "modelName": "text-embedding-ada-002"
+        },
+        "outputAnchors": [
+          {
+            "id": "openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
+            "name": "openAIEmbeddings",
+            "label": "OpenAIEmbeddings",
+            "type": "OpenAIEmbeddings | Embeddings"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1299.1494209907498,
+        "y": 755.2296213189072
+      }
+    },
+    {
+      "width": 300,
+      "height": 439,
+      "id": "textFile_0",
+      "position": {
+        "x": 1450.104176275621,
+        "y": 32.96492381612444
+      },
+      "type": "customNode",
+      "data": {
+        "id": "textFile_0",
+        "label": "Text File",
+        "version": 3,
+        "name": "textFile",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "Load data from text files",
+        "inputParams": [
+          {
+            "label": "Txt File",
+            "name": "txtFile",
+            "type": "file",
+            "fileType": ".txt, .html, .aspx, .asp, .cpp, .c, .cs, .css, .go, .h, .java, .js, .less, .ts, .php, .proto, .python, .py, .rst, .ruby, .rb, .rs, .scala, .sc, .scss, .sol, .sql, .swift, .markdown, .md, .tex, .ltx, .vb, .xml",
+            "id": "textFile_0-input-txtFile-file"
+          },
+          {
+            "label": "Metadata",
+            "name": "metadata",
+            "type": "json",
+            "optional": true,
+            "additionalParams": true,
+            "id": "textFile_0-input-metadata-json"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "textFile_0-input-textSplitter-TextSplitter"
+          }
+        ],
+        "inputs": {
+          "textSplitter": "{{markdownTextSplitter_0.data.instance}}",
+          "metadata": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "options": [
+              {
+                "id": "textFile_0-output-document-Document",
+                "name": "document",
+                "label": "Document",
+                "type": "Document"
+              },
+              {
+                "id": "textFile_0-output-text-string|json",
+                "name": "text",
+                "label": "Text",
+                "type": "string | json"
+              }
+            ],
+            "default": "document"
+          }
+        ],
+        "outputs": {
+          "output": "document"
+        },
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1450.104176275621,
+        "y": 32.96492381612444
+      },
+      "dragging": false
+    },
+    {
+      "width": 300,
+      "height": 426,
+      "id": "cheerioWebScraper_0",
+      "position": {
+        "x": 986.1507235409845,
+        "y": 310.5067225687199
+      },
+      "type": "customNode",
+      "data": {
+        "id": "cheerioWebScraper_0",
+        "label": "Cheerio Web Scraper",
+        "version": 1.1,
+        "name": "cheerioWebScraper",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "Load data from webpages",
+        "inputParams": [
+          {
+            "label": "URL",
+            "name": "url",
+            "type": "string",
+            "id": "cheerioWebScraper_0-input-url-string"
+          },
+          {
+            "label": "Get Relative Links Method",
+            "name": "relativeLinksMethod",
+            "type": "options",
+            "description": "Select a method to retrieve relative links",
+            "options": [
+              {
+                "label": "Web Crawl",
+                "name": "webCrawl",
+                "description": "Crawl relative links from HTML URL"
+              },
+              {
+                "label": "Scrape XML Sitemap",
+                "name": "scrapeXMLSitemap",
+                "description": "Scrape relative links from XML sitemap URL"
+              }
+            ],
+            "optional": true,
+            "additionalParams": true,
+            "id": "cheerioWebScraper_0-input-relativeLinksMethod-options"
+          },
+          {
+            "label": "Get Relative Links Limit",
+            "name": "limit",
+            "type": "number",
+            "optional": true,
+            "default": "10",
+            "additionalParams": true,
+            "description": "Only used when \"Get Relative Links Method\" is selected. Set 0 to retrieve all relative links, default limit is 10.",
+            "warning": "Retrieving all links might take long time, and all links will be upserted again if the flow's state changed (eg: different URL, chunk size, etc)",
+            "id": "cheerioWebScraper_0-input-limit-number"
+          },
+          {
+            "label": "Selector (CSS)",
+            "name": "selector",
+            "type": "string",
+            "description": "Specify a CSS selector to select the content to be extracted",
+            "optional": true,
+            "additionalParams": true,
+            "id": "cheerioWebScraper_0-input-selector-string"
+          },
+          {
+            "label": "Metadata",
+            "name": "metadata",
+            "type": "json",
+            "optional": true,
+            "additionalParams": true,
+            "id": "cheerioWebScraper_0-input-metadata-json"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "cheerioWebScraper_0-input-textSplitter-TextSplitter"
+          }
+        ],
+        "inputs": {
+          "url": "https://michmet.com/",
+          "textSplitter": "{{recursiveCharacterTextSplitter_0.data.instance}}",
+          "relativeLinksMethod": "webCrawl",
+          "limit": "10",
+          "selector": "",
+          "metadata": "",
+          "selectedLinks": [
+            "https://michmet.com",
+            "https://michmet.com/contact-us",
+            "https://michmet.com/about",
+            "https://michmet.com/michigan-metrology-news",
+            "https://michmet.com/location",
+            "https://michmet.com/surface-issue",
+            "https://michmet.com/surface-issue/adhesion",
+            "https://michmet.com/surface-issue/appearance",
+            "https://michmet.com/surface-issue/fit",
+            "https://michmet.com/surface-issue/friction",
+            "https://michmet.com/surface-issue/leaks",
+            "https://michmet.com/surface-issue/noise",
+            "https://michmet.com/surface-issue/squeaks",
+            "https://michmet.com/surface-issue/vibration",
+            "https://michmet.com/surface-issue/wear",
+            "https://michmet.com/classes",
+            "https://michmet.com/metrology-services",
+            "https://michmet.com/service/contract-measurement",
+            "https://michmet.com/service/measurement-consulting-services",
+            "https://michmet.com/service/surface-roughness-measurement",
+            "https://michmet.com/service/surface-texture-analysis",
+            "https://michmet.com/surface-measurement-resources",
+            "https://michmet.com/surface-texture-parameters-glossary",
+            "https://michmet.com/surface-texture-parameters-by-category",
+            "https://michmet.com/surface-roughness-analysis-blog",
+            "https://michmet.com/animations-and-videos",
+            "https://michmet.com/privacy-policy",
+            "https://michmet.com/terms-of-use",
+            "https://michmet.com/new-full-day-surface-metrology-and-tribology-class-11-14-24",
+            "https://michmet.com/controlling-knit-lines-in-plastic-molding",
+            "https://michmet.com/high-resolution-large-measurements-and-high-speed-too",
+            "https://michmet.com/3d-optical-profiler-modes",
+            "https://michmet.com/remembering-roger-simpson",
+            "https://michmet.com/surface-finish-for-lighting-applications",
+            "https://michmet.com/glossary-term/root-mean-square-surface-slope",
+            "https://michmet.com/shinier-but-same-roughness",
+            "https://michmet.com/how-do-we-define-average-roughness",
+            "https://michmet.com/hone-plates-sharpening-stones",
+            "https://michmet.com/how-do-we-define-roughness-video",
+            "https://michmet.com/noise-may-be-hiding-in-the-waviness",
+            "https://michmet.com/how-rough-is-roughness",
+            "https://michmet.com/friction-and-real-area-of-contact",
+            "https://michmet.com/dashboard-surface-texture",
+            "https://michmet.com/cavitation-erosion",
+            "https://michmet.com/why-do-some-bearings-look-shiny-with-wear",
+            "https://michmet.com/when-wear-looks-like-filtering-and-vice-versa",
+            "https://michmet.com/using-ssc-and-sds-to-understand-how-surfaces-interact-and-wear",
+            "https://michmet.com/make-the-change-from-r-parameters-to-s-parameters",
+            "https://michmet.com/parameters-primer-acf-autocorrelation-function",
+            "https://michmet.com/analyzing-clutch-steel-reaction-plates",
+            "https://michmet.com/surface-texture-measurement-ra-rz-rmax-rz1max-maximum-height",
+            "https://michmet.com/surface-finish-for-medical-devices",
+            "https://michmet.com/parameters-primer-stylus-xy-parameters",
+            "https://michmet.com/nanometer-scale-roughness",
+            "https://michmet.com/how-many-measurements",
+            "https://michmet.com/what-wear-measurement-may-and-may-not-show-you",
+            "https://michmet.com/s-parameters-primer-sds-summit-density",
+            "https://michmet.com/surface-texture-measurement-did-you-set-the-cutoff-lengths-properly",
+            "https://michmet.com/take-a-hike-understanding-form-waviness-and-roughness-in-terms-of-a-good-walk",
+            "https://michmet.com/if-you-need-less-sliding-friction-should-you-make-the-surface-rougher-or-smoother",
+            "https://michmet.com/patent-attorneys-and-surface-texture",
+            "https://michmet.com/multiscale-analysis-in-action",
+            "https://michmet.com/average-roughness-basics",
+            "https://michmet.com/glossary-term/average-roughness",
+            "https://michmet.com/glossary-term/average-roughness-ra",
+            "https://michmet.com/sa-does-not-equal-ra",
+            "https://michmet.com/paint-glossy-or-matte",
+            "https://michmet.com/scale-of-interaction",
+            "https://michmet.com/why-are-incompatible-surfaces-better-for-sliding-friction",
+            "https://michmet.com/a-little-tribology-every-morning",
+            "https://michmet.com/rpc-roughness-parameter",
+            "https://michmet.com/scaling-and-auto-scaling",
+            "https://michmet.com/real-area-of-contact",
+            "https://michmet.com/sticky-the-secret-science-of-surfaces",
+            "https://michmet.com/michigan-metrology-in-finishing-and-coating-magazine",
+            "https://michmet.com/remembering-frank-bowden",
+            "https://michmet.com/surface-texture-a-gdt-lab-may-not-have-the-measurement-tools",
+            "https://michmet.com/typical-average-roughness-values-for-various-machining-operations",
+            "https://michmet.com/choosing-an-interferometric-objective",
+            "https://michmet.com/wear-means-material-removal-doesnt-it",
+            "https://michmet.com/curling-the-international-sport-of-tribology",
+            "https://michmet.com/applying-lessons-of-micro-texture-to-macro-texture-of-curling-ice",
+            "https://michmet.com/ice-and-friction",
+            "https://michmet.com/when-is-non-contact-measurement-important",
+            "https://michmet.com/seasons-greetings-from-michigan-metrology",
+            "https://michmet.com/capillarity-and-wetting-phenomena",
+            "https://michmet.com/surface-texture-symmetry",
+            "https://michmet.com/glossary-term/reduced-peak-height-to-core-ratio",
+            "https://michmet.com/glossary-term/reduced-peak-height-to-reduced-valley-depth-ratio",
+            "https://michmet.com/glossary-term/reduced-valley-depth-to-core-ratio",
+            "https://michmet.com/remembering-benoit-mandelbrot",
+            "https://michmet.com/ra-changes-when-the-cutoff-changes",
+            "https://michmet.com/surface-texture-answer-book",
+            "https://michmet.com/can-stylus-and-optical-measurements-correlate",
+            "https://michmet.com/why-stitch-surface-texture-data",
+            "https://michmet.com/full-course-now-available-online",
+            "https://michmet.com/smoother-is-better",
+            "https://michmet.com/what-is-the-f-operator",
+            "https://michmet.com/macro-micro-lead",
+            "https://michmet.com/celebrating-floyd-firestone",
+            "https://michmet.com/bandpass-and-notch-filters",
+            "https://michmet.com/michmet-com-has-a-new-look",
+            "https://michmet.com/leaks-squeaks",
+            "https://michmet.com/glossary-term/mean-profile-spacing-along-xy",
+            "https://michmet.com/glossary-term/texture-aspect-ratio",
+            "https://michmet.com/glossary-term/summit-density",
+            "https://michmet.com/what-surface-finish-does-a-medical-device-need",
+            "https://michmet.com/tribology-surface-roughness-mini-symposium",
+            "https://michmet.com/feature-size-scales-for-coating-adhesion",
+            "https://michmet.com/remembering-jim-wyant",
+            "https://michmet.com/where-is-the-wear",
+            "https://michmet.com/surface-roughness-texture-and-tribology-short-course",
+            "https://michmet.com/smart-phones-and-space-telescopes",
+            "https://michmet.com/metal-forming-tribology-surface-metrology-workshop",
+            "https://michmet.com/remembering-the-early-days",
+            "https://michmet.com/anthony-musci-a-rock-star-engineering-career",
+            "https://michmet.com/a-measurement-lab-as-development-partner",
+            "https://michmet.com/what-are-the-3d-optical-profiler-measurement-modes",
+            "https://michmet.com/average-roughness-animation",
+            "https://michmet.com/bringing-3d-optical-measurement-to-detroit",
+            "https://michmet.com/getting-the-most-from-your-3d-optical-profiler",
+            "https://michmet.com/glossary-term/mean-summit-curvature",
+            "https://michmet.com/glossary-term/skewness",
+            "https://michmet.com/friction-and-wear-of-materials",
+            "https://michmet.com/scoring-scuffing-galling",
+            "https://michmet.com/void-volume-parameters",
+            "https://michmet.com/choosing-a-contract-measurement-lab",
+            "https://michmet.com/osborne-reynolds",
+            "https://michmet.com/what-is-asme-b46-1",
+            "https://michmet.com/if-you-dont-know-the-cutoff-length",
+            "https://michmet.com/advanced-engineering-design-lifetime-performance-and-reliability",
+            "https://michmet.com/surface-texture-and-materials-for-good-bearing-interface-part-one",
+            "https://michmet.com/which-surface-textures-materials-make-good-bearings-pt-2",
+            "https://michmet.com/which-surface-textures-materials-make-good-bearings-pt-3",
+            "https://michmet.com/how-do-i-calibrate-my-fingernail",
+            "https://michmet.com/paint-finish-and-spatial-wavelengths",
+            "https://michmet.com/lotus-leaf-self-cleaning-superhydrophobic",
+            "https://michmet.com/making-filtering-visual-sorting-stones",
+            "https://michmet.com/traversing-length-evaluation-length-and-sampling-length",
+            "https://michmet.com/when-rz-isnt-rz",
+            "https://michmet.com/quality-101-texture-measurements-quality-magazine",
+            "https://michmet.com/glossary-term/developed-interfacial-area-ratio",
+            "https://michmet.com/wp-content/uploads/2022/06/Michigan_Metrology_Surface_Texture_Parameters_Glossary.pdf",
+            "https://michmet.com/glossary-term-category/height",
+            "https://michmet.com/3d_legacy_parameters.htm",
+            "https://michmet.com/glossary-term-category/legacy-parameters",
+            "https://michmet.com/glossary-term/average-maximum-height-of-the-surface",
+            "https://michmet.com/glossary-term/average-maximum-peak-height",
+            "https://michmet.com/glossary-term/average-maximum-valley-depth",
+            "https://michmet.com/glossary-term/normalized-surface-volume",
+            "https://michmet.com/glossary-term/root-mean-square-slope-in-xy",
+            "https://michmet.com/glossary-term/surface-area-index",
+            "https://michmet.com/glossary-term/kurtosis",
+            "https://michmet.com/glossary-term/maximum-height-of-surface",
+            "https://michmet.com/glossary-term-category/legacy",
+            "https://michmet.com/glossary-term/maximum-peak-height",
+            "https://michmet.com/glossary-term/maximum-valley-depth",
+            "https://michmet.com/glossary-term/root-mean-square-roughness",
+            "https://michmet.com/glossary-term-category/spatial",
+            "https://michmet.com/glossary-term/angular-power-spectral-density-function",
+            "https://michmet.com/glossary-term/autocorrelation-function",
+            "https://michmet.com/glossary-term/autocorrelation-length",
+            "https://michmet.com/glossary-term/texture-direction",
+            "https://michmet.com/glossary-term-category/hybrid",
+            "https://michmet.com/glossary-term-category/functional",
+            "https://michmet.com/glossary-term/core-material-volume",
+            "https://michmet.com/glossary-term/core-roughness-depth",
+            "https://michmet.com/glossary-term/core-void-volume",
+            "https://michmet.com/glossary-term/dale-void-volume",
+            "https://michmet.com/glossary-term/material-volume",
+            "https://michmet.com/glossary-term/peak-extreme-height",
+            "https://michmet.com/glossary-term/peak-material-volume",
+            "https://michmet.com/glossary-term/void-volume",
+            "https://michmet.com/glossary-term-category/material-ratio-bearing-area-surface-texture-parameters",
+            "https://michmet.com/glossary-term/areal-material-ratio",
+            "https://michmet.com/glossary-term/core-roughness-along-x-y",
+            "https://michmet.com/glossary-term/inverse-areal-material-ratio",
+            "https://michmet.com/glossary-term/material-ratio",
+            "https://michmet.com/glossary-term/peak-material-portion",
+            "https://michmet.com/glossary-term/reduced-peak-height",
+            "https://michmet.com/glossary-term/reduced-peak-height-along-xy",
+            "https://michmet.com/glossary-term/reduced-valley-depth",
+            "https://michmet.com/glossary-term/reduced-valley-depth-along-x-y",
+            "https://michmet.com/glossary-term/peak-valley-portion",
+            "https://michmet.com/glossary-term-category/3d-filtering",
+            "https://michmet.com/glossary-term/band-pass-filter",
+            "https://michmet.com/glossary-term/f-operator",
+            "https://michmet.com/glossary-term/long-wavelength-pass-filter",
+            "https://michmet.com/glossary-term/notch-filter",
+            "https://michmet.com/glossary-term/short-wavelength-pass-filter",
+            "https://michmet.com/glossary-term-category/2d-stylus-surface-roughness-parameters",
+            "https://michmet.com/glossary-term/average-maximum-profile-height-along-x-y",
+            "https://michmet.com/glossary-term/average-roughness-along-x-y",
+            "https://michmet.com/glossary-term/maximum-profile-height-along-x-y",
+            "https://michmet.com/glossary-term/peak-density-along-xy",
+            "https://michmet.com/glossary-term/root-mean-square-profile-wavelength-along-x-y",
+            "https://michmet.com/glossary-term/root-mean-square-slope-along-xy",
+            "https://michmet.com/glossary-term/stylus-pc-ratio",
+            "https://michmet.com/glossary-term/stylus-ra-ratio",
+            "https://michmet.com/glossary-term/stylus-rz-ratio",
+            "https://michmet.com/glossary-term/stylus-deltaq-ratio",
+            "https://michmet.com/glossary-term/stylus-lambdaq-ratio",
+            "https://michmet.com/glossary-term/stylus-delta-q-ratio-2",
+            "https://michmet.com/download-glossary",
+            "https://michmet.com/wp-content/uploads/2022/05/Michigan_Metrology_Brochure.pdf",
+            "https://michmet.com/sample-reports",
+            "https://michmet.com/service/training-and-classes",
+            "https://michmet.com/class-registration",
+            "https://michmet.com/contact",
+            "https://michmet.com/michigan-metrology-news/page/2",
+            "https://michmet.com/michigan-metrology-news/page/3",
+            "https://michmet.com/wp-content/uploads/2022/06/michigan_metrology_certification.pdf"
+          ]
+        },
+        "outputAnchors": [
+          {
+            "id": "cheerioWebScraper_0-output-cheerioWebScraper-Document",
+            "name": "cheerioWebScraper",
+            "label": "Document",
+            "type": "Document"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 986.1507235409845,
+        "y": 310.5067225687199
+      },
+      "dragging": false
+    },
+    {
+      "width": 300,
+      "height": 430,
+      "id": "recursiveCharacterTextSplitter_0",
+      "position": {
+        "x": 515.464109794323,
+        "y": 366.8193716659814
+      },
+      "type": "customNode",
+      "data": {
+        "id": "recursiveCharacterTextSplitter_0",
+        "label": "Recursive Character Text Splitter",
+        "version": 2,
+        "name": "recursiveCharacterTextSplitter",
+        "type": "RecursiveCharacterTextSplitter",
+        "baseClasses": [
+          "RecursiveCharacterTextSplitter",
+          "TextSplitter",
+          "BaseDocumentTransformer",
+          "Runnable"
+        ],
+        "category": "Text Splitters",
+        "description": "Split documents recursively by different characters - starting with \"\\n\\n\", then \"\\n\", then \" \"",
+        "inputParams": [
+          {
+            "label": "Chunk Size",
+            "name": "chunkSize",
+            "type": "number",
+            "default": 1000,
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-chunkSize-number"
+          },
+          {
+            "label": "Chunk Overlap",
+            "name": "chunkOverlap",
+            "type": "number",
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-chunkOverlap-number"
+          },
+          {
+            "label": "Custom Separators",
+            "name": "separators",
+            "type": "string",
+            "rows": 4,
+            "description": "Array of custom separators to determine when to split the text, will override the default separators",
+            "placeholder": "[\"|\", \"##\", \">\", \"-\"]",
+            "additionalParams": true,
+            "optional": true,
+            "id": "recursiveCharacterTextSplitter_0-input-separators-string"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "chunkSize": 1000,
+          "chunkOverlap": "50",
+          "separators": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+            "name": "recursiveCharacterTextSplitter",
+            "label": "RecursiveCharacterTextSplitter",
+            "type": "RecursiveCharacterTextSplitter | TextSplitter | BaseDocumentTransformer | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "selected": false,
+      "positionAbsolute": {
+        "x": 515.464109794323,
+        "y": 366.8193716659814
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "memoryVectorStore_0",
+      "sourceHandle": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+      "target": "conversationalRetrievalQAChain_0",
+      "targetHandle": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever",
+      "type": "buttonedge",
+      "id": "memoryVectorStore_0-memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever",
+      "data": {
+        "label": ""
+      }
+    },
+    {
+      "source": "chatOpenAI_0",
+      "sourceHandle": "chatOpenAI_0-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel",
+      "target": "conversationalRetrievalQAChain_0",
+      "targetHandle": "conversationalRetrievalQAChain_0-input-model-BaseChatModel",
+      "type": "buttonedge",
+      "id": "chatOpenAI_0-chatOpenAI_0-output-chatOpenAI-ChatOpenAI|BaseChatModel|BaseLanguageModel-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-model-BaseChatModel",
+      "data": {
+        "label": ""
+      }
+    },
+    {
+      "source": "openAIEmbeddings_0",
+      "sourceHandle": "openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-embeddings-Embeddings",
+      "type": "buttonedge",
+      "id": "openAIEmbeddings_0-openAIEmbeddings_0-output-openAIEmbeddings-OpenAIEmbeddings|Embeddings-memoryVectorStore_0-memoryVectorStore_0-input-embeddings-Embeddings",
+      "data": {
+        "label": ""
+      }
+    },
+    {
+      "source": "markdownTextSplitter_0",
+      "sourceHandle": "markdownTextSplitter_0-output-markdownTextSplitter-MarkdownTextSplitter|RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer",
+      "target": "textFile_0",
+      "targetHandle": "textFile_0-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "markdownTextSplitter_0-markdownTextSplitter_0-output-markdownTextSplitter-MarkdownTextSplitter|RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer-textFile_0-textFile_0-input-textSplitter-TextSplitter"
+    },
+    {
+      "source": "textFile_0",
+      "sourceHandle": "textFile_0-output-document-Document",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "textFile_0-textFile_0-output-document-Document-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    },
+    {
+      "source": "cheerioWebScraper_0",
+      "sourceHandle": "cheerioWebScraper_0-output-cheerioWebScraper-Document",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "cheerioWebScraper_0-cheerioWebScraper_0-output-cheerioWebScraper-Document-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    },
+    {
+      "source": "recursiveCharacterTextSplitter_0",
+      "sourceHandle": "recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+      "target": "cheerioWebScraper_0",
+      "targetHandle": "cheerioWebScraper_0-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "recursiveCharacterTextSplitter_0-recursiveCharacterTextSplitter_0-output-recursiveCharacterTextSplitter-RecursiveCharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-cheerioWebScraper_0-cheerioWebScraper_0-input-textSplitter-TextSplitter"
+    }
+  ]
+}
